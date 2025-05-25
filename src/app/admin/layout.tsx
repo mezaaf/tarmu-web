@@ -46,7 +46,7 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
     <SidebarProvider>
       <AdminSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b ps-4 pe-8 justify-between">
+        <header className="bg-white dark:bg-black sticky top-0 z-100 flex h-16 shrink-0 items-center gap-2 border-b ps-4 pe-8 justify-between">
           <div className="flex h-16 shrink-0 items-center gap-2  ">
             <SidebarTrigger className="-ml-1" />
             <Breadcrumb>
@@ -65,7 +65,7 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
           </div>
           <UserPopover userProfile={userProfile} />
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-6">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

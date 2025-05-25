@@ -42,6 +42,7 @@ import { forwardRef, useEffect, useState } from "react";
 import { largeMenuItems } from "./largeMenuItem";
 import { smallMenuItems } from "./smallMenuItem";
 import { UserProfle } from "@/types/userProfile";
+import ClientOnly from "./ClientOnly";
 
 const Header = () => {
   const { theme, setTheme } = useTheme();
@@ -241,18 +242,23 @@ const Header = () => {
                 </Popover>
               )}
 
-              <Button
-                variant={"transparent"}
-                size={"icon"}
-                className="group hover:bg-tosca/20 flex cursor-pointer items-center justify-center rounded-full p-2 transition-all duration-300"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              >
-                {theme === "dark" ? (
-                  <Sun className="group-hover:text-tosca" strokeWidth={1.5} />
-                ) : (
-                  <Moon className="group-hover:text-tosca" strokeWidth={1.5} />
-                )}
-              </Button>
+              <ClientOnly>
+                <Button
+                  variant={"transparent"}
+                  size={"icon"}
+                  className="group hover:bg-tosca/20 flex cursor-pointer items-center justify-center rounded-full p-2 transition-all duration-300"
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                >
+                  {theme === "dark" ? (
+                    <Sun className="group-hover:text-tosca" strokeWidth={1.5} />
+                  ) : (
+                    <Moon
+                      className="group-hover:text-tosca"
+                      strokeWidth={1.5}
+                    />
+                  )}
+                </Button>
+              </ClientOnly>
             </div>
           </div>
           <div className="flex w-full items-center justify-end gap-3 lg:hidden">
@@ -303,24 +309,26 @@ const Header = () => {
                 </PopoverContent>
               </Popover>
             )}
-            <Button
-              variant={"transparent"}
-              size={"icon"}
-              className="group hover:bg-tosca/20 flex cursor-pointer items-center justify-center rounded-full p-0 transition-all duration-300"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              {theme === "dark" ? (
-                <Sun
-                  className="group-hover:text-tosca h-5 w-5"
-                  strokeWidth={1.5}
-                />
-              ) : (
-                <Moon
-                  className="group-hover:text-tosca h-5 w-5"
-                  strokeWidth={1.5}
-                />
-              )}
-            </Button>
+            <ClientOnly>
+              <Button
+                variant={"transparent"}
+                size={"icon"}
+                className="group hover:bg-tosca/20 flex cursor-pointer items-center justify-center rounded-full p-0 transition-all duration-300"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              >
+                {theme === "dark" ? (
+                  <Sun
+                    className="group-hover:text-tosca h-5 w-5"
+                    strokeWidth={1.5}
+                  />
+                ) : (
+                  <Moon
+                    className="group-hover:text-tosca h-5 w-5"
+                    strokeWidth={1.5}
+                  />
+                )}
+              </Button>
+            </ClientOnly>
             <Drawer>
               <DrawerTrigger>
                 <Menu size={20} className="mouse-pointer" />

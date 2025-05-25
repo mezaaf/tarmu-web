@@ -2,9 +2,9 @@ export const smallMenuItems = [
   {
     label: "Tentang",
     children: [
-      { label: "Profil", href: "/tentang/profil" },
-      { label: "Unit Pendidikan", href: "/tentang/unit-pendidikan" },
-      { label: "Galeri", href: "/tentang/galeri" },
+      { label: "Profil", href: "/profile" },
+      { label: "Unit Pendidikan", href: "/unit" },
+      { label: "Galeri", href: "/galery" },
     ],
   },
   {

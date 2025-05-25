@@ -5,17 +5,17 @@ export const largeMenuItems = [
       {
         title: "Profil",
         description: "Profil Pondok Pesantren Tarbiyatul Mutathowi'in",
-        href: "/about/profile",
+        href: "/profile",
       },
       {
         title: "Unit Pendidikan",
         description: "Unit Pendidikan Pondok Pesantren Tarbiyatul Mutathowi'in",
-        href: "/about/unit",
+        href: "/unit",
       },
       {
         title: "Galeri",
         description: "Galeri Pondok Pesantren Tarbiyatul Mutathowi'in",
-        href: "/about/galery",
+        href: "/galery",
       },
     ],
   },

@@ -133,3 +133,11 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.my-editor-container .ProseMirror img {
+  width: 600px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 20px;
+}
