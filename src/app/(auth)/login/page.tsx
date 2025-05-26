@@ -1,6 +1,5 @@
 "use client";
 
-import { login } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,9 +15,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { LoginFormSchema, loginFormShema } from "../forms/login";
 import LoginGoogle from "../login-google";
+import { toast } from "sonner";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -34,17 +33,28 @@ const LoginPage = () => {
 
   const handleLoginSubmit = async (values: LoginFormSchema) => {
     setIsLoading(true);
-    const loginData = {
-      email: values.email,
-      password: values.password,
-    };
+    const result = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+      }),
+    });
 
-    const result = await login(loginData);
+    const response = await result.json();
 
-    if (result?.status === true) {
-      router.push("/");
+    if (!result.ok) {
+      if (response.message === "Email not confirmed") {
+        toast.error(
+          "Email belum dikonfirmasi, silahkan cek email anda untuk verifikasi."
+        );
+      } else {
+        toast.error(response.message);
+      }
     } else {
-      toast.error(result?.message);
+      toast.success(response.message);
+      router.push("/");
     }
 
     setIsLoading(false);

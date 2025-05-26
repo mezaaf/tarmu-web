@@ -31,7 +31,7 @@ const UserSetting = (props: UserSettingProps) => {
   };
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild className="cursor-pointer">
         <Avatar>
           <AvatarImage
             src={loggedInUser?.profile_picture_url as string}

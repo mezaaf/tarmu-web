@@ -14,7 +14,6 @@ export async function register(registerData: {
   const credentials = {
     full_name: registerData.full_name,
     email: registerData.email,
-
     password: registerData.password,
   };
 
@@ -30,7 +29,7 @@ export async function register(registerData: {
   });
 
   if (error) {
-    return { status: true, message: error.message, user: null };
+    return { status: false, message: error.message, user: null };
   } else if (data.user?.identities?.length === 0) {
     return {
       status: false,

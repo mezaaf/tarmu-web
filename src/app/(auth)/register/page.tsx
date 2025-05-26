@@ -15,10 +15,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { RegisterFormSchema, registerFormShema } from "../forms/register";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { register } from "@/app/actions/auth";
 import LoginGoogle from "../login-google";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -34,19 +33,23 @@ const RegisterPage = () => {
 
   const handleRegisterSubmit = async (values: RegisterFormSchema) => {
     setIsLoading(true);
-    const registerData = {
-      full_name: values.full_name,
-      email: values.email,
-      password: values.password,
-    };
+    const result = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        full_name: values.full_name,
+        email: values.email,
+        password: values.password,
+      }),
+    });
 
-    const result = await register(registerData);
+    const response = await result.json();
 
-    if (result?.status === true) {
-      toast.success(result.message);
-      router.push("/login");
+    if (!result.ok) {
+      toast.error(response.message);
     } else {
-      toast.error(result?.message);
+      toast.success(response.message);
+      router.push("/login");
     }
 
     setIsLoading(false);
