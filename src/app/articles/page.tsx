@@ -30,7 +30,7 @@ const Articles = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch("http://localhost:3000/api/article");
+      const result = await fetch("/api/article");
 
       if (!result.ok) {
         throw new Error("Gagal mengambil data");

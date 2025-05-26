@@ -11,7 +11,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const params = await props.params;
   const slug = params.slug;
-  const result = await fetch("http://localhost:3000/api/article?slug=" + slug);
+  const result = await fetch("/api/article?slug=" + slug);
   const data = await result.json();
   const article = data.data[0];
 
@@ -31,7 +31,7 @@ export async function generateMetadata(
 const DetailArticlePage = async (props: DetailArticlePageProps) => {
   const params = await props.params;
   const slug = params.slug;
-  const result = await fetch("http://localhost:3000/api/article?slug=" + slug);
+  const result = await fetch("/api/article?slug=" + slug);
   const data = await result.json();
 
   const article = data.data[0];
