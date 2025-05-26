@@ -1,15 +1,36 @@
 import { SectionContainer } from "@/components/layouts/SectionContainer";
 import { formattedDate } from "@/lib/utils";
+import { Metadata } from "next";
 import Image from "next/image";
 
 type DetailArticlePageProps = {
   params: Promise<{ slug: string }>;
 };
+export async function generateMetadata(
+  props: DetailArticlePageProps
+): Promise<Metadata> {
+  const params = await props.params;
+  const slug = params.slug;
+  const result = await fetch("http://localhost:3000/api/article?slug=" + slug);
+  const data = await result.json();
+  const article = data.data[0];
+
+  return {
+    title: article.title,
+    description: article.excerpt,
+    openGraph: {
+      images: [
+        {
+          url: article.cover_url,
+        },
+      ],
+    },
+  };
+}
 
 const DetailArticlePage = async (props: DetailArticlePageProps) => {
   const params = await props.params;
   const slug = params.slug;
-
   const result = await fetch("http://localhost:3000/api/article?slug=" + slug);
   const data = await result.json();
 
