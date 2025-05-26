@@ -1,4 +1,4 @@
-export type UserProfle = {
+export type UserProfile = {
   id: string;
   aud: string;
   role: string;

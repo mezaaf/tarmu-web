@@ -1,3 +1,6 @@
+"use client";
+
+import UserSetting from "@/components/fragments/UserSetting";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,36 +14,44 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 import { redirect } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { AdminSidebar } from "./dashboard/AdminSidebar";
-import UserPopover from "./dashboard/user-popover";
+import { UserProfile } from "@/types/userProfile";
 
-const AdminLayout = async ({ children }: { children: ReactNode }) => {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+const AdminLayout = ({ children }: { children: ReactNode }) => {
+  const [loggedInUser, setLoggedInUser] = useState<UserProfile | null>(null);
 
-  if (!user) {
-    return redirect("/login");
-  }
+  useEffect(() => {
+    const fetchUser = async () => {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-  const { data: profile, error } = await supabase
-    .from("user_profiles")
-    .select("*")
-    .eq("email", user.email)
-    .single();
+      if (!user) {
+        return redirect("/login");
+      }
 
-  if (error || profile?.role !== "admin") {
-    return redirect("/error");
-  }
+      const { data: profile, error } = await supabase
+        .from("user_profiles")
+        .select("*")
+        .eq("email", user.email)
+        .single();
 
-  const userProfile = {
-    ...user,
-    ...profile,
-  };
+      if (error || profile?.role !== "admin") {
+        return redirect("/error");
+      }
+
+      const userProfile = {
+        ...user,
+        ...profile,
+      };
+      setLoggedInUser(userProfile);
+    };
+    fetchUser();
+  }, []);
 
   return (
     <SidebarProvider>
@@ -63,7 +74,7 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <UserPopover userProfile={userProfile} />
+          <UserSetting loggedInUser={loggedInUser} />
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-6">{children}</div>
       </SidebarInset>

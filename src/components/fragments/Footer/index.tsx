@@ -60,7 +60,7 @@ const Footer = () => {
                       href="https://www.instagram.com/pondokngujur/"
                       target="_blank"
                     >
-                      <RiInstagramFill className="size-6 opacity-50 transition-opacity duration-300 hover:opacity-100" />
+                      <RiInstagramFill className="size-6 opacity-50 transition-all duration-300 hover:opacity-100 hover:fill-tosca" />
                     </Link>
                   </li>
                   <li>
@@ -68,7 +68,7 @@ const Footer = () => {
                       href="https://www.youtube.com/@pondokngujur"
                       target="_blank"
                     >
-                      <FaYoutube className="size-6 opacity-50 transition-opacity duration-300 hover:opacity-100" />
+                      <FaYoutube className="size-6 opacity-50 transition-all duration-300 hover:opacity-100 hover:fill-tosca" />
                     </Link>
                   </li>
                   <li>
@@ -76,7 +76,7 @@ const Footer = () => {
                       href="https://www.tiktok.com/@pondokngujur_"
                       target="_blank"
                     >
-                      <AiFillTikTok className="size-6 opacity-50 transition-opacity duration-300 hover:opacity-100" />
+                      <AiFillTikTok className="size-6 opacity-50 transition-all duration-300 hover:opacity-100 hover:fill-tosca" />
                     </Link>
                   </li>
                   <li>
@@ -84,7 +84,7 @@ const Footer = () => {
                       href="https://www.facebook.com/p/PPTarbiyatul-Mutathowiin-100071635964159/"
                       target="_blank"
                     >
-                      <FaFacebook className="size-6 opacity-50 transition-opacity duration-300 hover:opacity-100" />
+                      <FaFacebook className="size-6 opacity-50 transition-all duration-300 hover:opacity-100 hover:fill-tosca" />
                     </Link>
                   </li>
                 </ul>

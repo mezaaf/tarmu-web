@@ -39,7 +39,7 @@ export function AdminSidebar({
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <Link href="#" className="ms-3 my-3 flex items-center gap-2">
+        <Link href="/" className="ms-3 my-3 flex items-center gap-2">
           <h1 className="text-tosca text-lg font-bold md:text-2xl">
             tarmu<span className="text-gold">web</span>.
           </h1>

@@ -1,8 +1,6 @@
 import { SectionContainer } from "@/components/layouts/SectionContainer";
 import { formattedDate } from "@/lib/utils";
-import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
-import { redirect } from "next/navigation";
 
 type DetailArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -12,17 +10,10 @@ const DetailArticlePage = async (props: DetailArticlePageProps) => {
   const params = await props.params;
   const slug = params.slug;
 
-  const supabase = await createClient();
+  const result = await fetch("http://localhost:3000/api/article?slug=" + slug);
+  const data = await result.json();
 
-  const { data, error } = await supabase
-    .from("articles")
-    .select("*")
-    .eq("slug", slug)
-    .single();
-
-  if (error) {
-    return redirect("/articles");
-  }
+  const article = data.data[0];
 
   return (
     <>
@@ -39,7 +30,7 @@ const DetailArticlePage = async (props: DetailArticlePageProps) => {
       <SectionContainer padded minFullscreen>
         <div className="flex justify-between w-full">
           <div className=" ">
-            <h1 className="text-4xl font-bold mb-3">{data.title}</h1>
+            <h1 className="text-4xl font-bold mb-3">{article.title}</h1>
             <div className="flex items-center gap-3">
               <div className="w-8">
                 <Image
@@ -50,13 +41,13 @@ const DetailArticlePage = async (props: DetailArticlePageProps) => {
                   className="rounded-full w-full h-full object-cover"
                 />
               </div>
-              <h4 className="font-semibold capitalize">by {data.author} </h4>
+              <h4 className="font-semibold capitalize">by {article.author} </h4>
               <span className="bg-gold w-2 h-2 rounded-full -mx-1 mt-0.5" />
-              <h3 className="text-sm">{formattedDate(data.created_at)}</h3>
+              <h3 className="text-sm">{formattedDate(article.created_at)}</h3>
             </div>
             <div
               className="my-10"
-              dangerouslySetInnerHTML={{ __html: data.content }}
+              dangerouslySetInnerHTML={{ __html: article.content }}
             />
           </div>
           <div className="hidden md:flex flex-col gap-10 w-5xl ms-10 p-5">

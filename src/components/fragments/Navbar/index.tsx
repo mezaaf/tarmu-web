@@ -7,9 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Command, CommandItem, CommandList } from "@/components/ui/command";
 import {
   Drawer,
   DrawerClose,
@@ -27,29 +25,23 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn, getUserInitials } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { UserProfile } from "@/types/userProfile";
 import { createClient } from "@/utils/supabase/client";
-import { LogOutIcon, Menu, Moon, Settings, Sun, UserIcon } from "lucide-react";
-import { useTheme } from "next-themes";
+import { Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { forwardRef, useEffect, useState } from "react";
+import ThemeToogle from "../ThemeToggle";
 import { largeMenuItems } from "./largeMenuItem";
 import { smallMenuItems } from "./smallMenuItem";
-import { UserProfle } from "@/types/userProfile";
-import ClientOnly from "./ClientOnly";
+import UserSetting from "../UserSetting";
 
 const Header = () => {
-  const { theme, setTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const [loggedInUser, setLoggedInUser] = useState<UserProfle | null>(null);
+  const [loggedInUser, setLoggedInUser] = useState<UserProfile | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -196,139 +188,23 @@ const Header = () => {
                   Masuk
                 </Button>
               ) : (
-                <Popover>
-                  <PopoverTrigger asChild className="cursor-pointer">
-                    <Avatar>
-                      <AvatarImage
-                        src={loggedInUser.profile_picture_url as string}
-                        alt="@shadcn"
-                      />
-
-                      <AvatarFallback className="font-semibold">
-                        {getUserInitials(loggedInUser.user_metadata.full_name)}
-                      </AvatarFallback>
-                    </Avatar>
-                  </PopoverTrigger>
-                  <PopoverContent className=" me-2">
-                    <div className="grid gap-4">
-                      <div className="space-y-2">
-                        <h4 className="font-medium leading-none">
-                          {loggedInUser?.user_metadata.full_name}
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          {loggedInUser?.email}
-                        </p>
-                      </div>
-                      <div className="grid gap-2">
-                        <Command>
-                          <CommandList>
-                            <CommandItem>
-                              <UserIcon />
-                              <span>Profile</span>
-                            </CommandItem>
-                            <CommandItem>
-                              <Settings />
-                              <span>Settings</span>
-                            </CommandItem>
-                            <CommandItem onSelect={handleLogout}>
-                              <LogOutIcon />
-                              <span>Logout</span>
-                            </CommandItem>
-                          </CommandList>
-                        </Command>
-                      </div>
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                <UserSetting
+                  loggedInUser={loggedInUser}
+                  handleLogout={handleLogout}
+                />
               )}
 
-              <ClientOnly>
-                <Button
-                  variant={"transparent"}
-                  size={"icon"}
-                  className="group hover:bg-tosca/20 flex cursor-pointer items-center justify-center rounded-full p-2 transition-all duration-300"
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                >
-                  {theme === "dark" ? (
-                    <Sun className="group-hover:text-tosca" strokeWidth={1.5} />
-                  ) : (
-                    <Moon
-                      className="group-hover:text-tosca"
-                      strokeWidth={1.5}
-                    />
-                  )}
-                </Button>
-              </ClientOnly>
+              <ThemeToogle />
             </div>
           </div>
           <div className="flex w-full items-center justify-end gap-3 lg:hidden">
-            {/* <Search size={20} /> */}
             {loggedInUser && (
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Avatar>
-                    <AvatarImage
-                      src={loggedInUser?.profile_picture_url as string}
-                      alt="@shadcn"
-                    />
-
-                    <AvatarFallback className="font-semibold">
-                      {getUserInitials(loggedInUser?.user_metadata.full_name)}
-                    </AvatarFallback>
-                  </Avatar>
-                </PopoverTrigger>
-                <PopoverContent className=" me-2">
-                  <div className="grid gap-4">
-                    <div className="space-y-2">
-                      <h4 className="font-medium leading-none">
-                        {loggedInUser?.user_metadata.full_name}
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        {loggedInUser?.email}
-                      </p>
-                    </div>
-                    <div className="grid gap-2">
-                      <Command>
-                        <CommandList>
-                          <CommandItem>
-                            <UserIcon />
-                            <span>Profile</span>
-                          </CommandItem>
-                          <CommandItem>
-                            <Settings />
-                            <span>Settings</span>
-                          </CommandItem>
-                          <CommandItem onSelect={handleLogout}>
-                            <LogOutIcon />
-                            <span>Logout</span>
-                          </CommandItem>
-                        </CommandList>
-                      </Command>
-                    </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
+              <UserSetting
+                loggedInUser={loggedInUser}
+                handleLogout={handleLogout}
+              />
             )}
-            <ClientOnly>
-              <Button
-                variant={"transparent"}
-                size={"icon"}
-                className="group hover:bg-tosca/20 flex cursor-pointer items-center justify-center rounded-full p-0 transition-all duration-300"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              >
-                {theme === "dark" ? (
-                  <Sun
-                    className="group-hover:text-tosca h-5 w-5"
-                    strokeWidth={1.5}
-                  />
-                ) : (
-                  <Moon
-                    className="group-hover:text-tosca h-5 w-5"
-                    strokeWidth={1.5}
-                  />
-                )}
-              </Button>
-            </ClientOnly>
+            <ThemeToogle />
             <Drawer>
               <DrawerTrigger>
                 <Menu size={20} className="mouse-pointer" />
