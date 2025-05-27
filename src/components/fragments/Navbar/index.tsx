@@ -1,6 +1,5 @@
 "use client";
 
-import { logout } from "@/app/actions/auth";
 import {
   Accordion,
   AccordionContent,
@@ -36,6 +35,7 @@ import ThemeToogle from "../ThemeToggle";
 import { largeMenuItems } from "./largeMenuItem";
 import { smallMenuItems } from "./smallMenuItem";
 import UserSetting from "../UserSetting";
+import { logout } from "@/utils/supabase/service";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);

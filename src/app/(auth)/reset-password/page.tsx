@@ -1,6 +1,5 @@
 "use client";
 
-import { resetPassword } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,6 +19,7 @@ import {
   resetPasswordFormSchema,
   ResetPasswordFormSchema,
 } from "../forms/reset-password";
+import { resetPassword } from "@/utils/supabase/service";
 
 const ResetPasswordPage = () => {
   const searchParams = useSearchParams();

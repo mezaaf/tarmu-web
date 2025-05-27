@@ -19,28 +19,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { axiosInstance } from "@/lib/axios/instance";
 import { Article } from "@/types/article";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Articles = () => {
-  const [articles, setArticles] = useState<Article[] | null>(null);
+  const [articles, setArticles] = useState<Article[]>([]);
   const [category, setCategory] = useState("all");
 
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.get("/article");
+      const data = response.data.data;
+      setArticles(data);
+    } catch (error) {
+      console.log((error as TypeError).message);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetch("/api/article");
-
-      if (!result.ok) {
-        throw new Error("Gagal mengambil data");
-      }
-
-      const articles = await result.json();
-
-      setArticles(articles.data);
-    };
-
     fetchData();
   }, []);
 

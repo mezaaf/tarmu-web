@@ -14,7 +14,22 @@ export async function POST(request: NextRequest) {
     if (result?.status === true) {
       return NextResponse.json({ message: result?.message }, { status: 200 });
     } else {
-      return NextResponse.json({ message: result?.message }, { status: 400 });
+      if (result.message === "Invalid login credentials") {
+        return NextResponse.json(
+          { message: "Email atau password salah." },
+          { status: 400 }
+        );
+      } else if (result.message === "Email not confirmed") {
+        return NextResponse.json(
+          {
+            message:
+              "Email belum dikonfirmasi, silahkan cek email anda untuk konfirmasi.",
+          },
+          { status: 400 }
+        );
+      } else {
+        return NextResponse.json({ message: result?.message }, { status: 400 });
+      }
     }
   } catch (err) {
     console.error("Internal Server Error:", err);

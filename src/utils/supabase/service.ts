@@ -17,6 +17,8 @@ export async function register(registerData: {
     password: registerData.password,
   };
 
+  const redirectUrl = process.env.NEXT_PUBLIC_BASE_URL + "/login";
+
   const { error, data } = await supabase.auth.signUp({
     email: credentials.email,
     password: credentials.password,
@@ -24,7 +26,7 @@ export async function register(registerData: {
       data: {
         full_name: credentials.full_name,
       },
-      //   emailRedirectTo: "/auth/callback",
+      emailRedirectTo: redirectUrl,
     },
   });
 

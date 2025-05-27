@@ -15,13 +15,15 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { createClient } from "@/utils/supabase/client";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import { AdminSidebar } from "./dashboard/AdminSidebar";
 import { UserProfile } from "@/types/userProfile";
+import { logout } from "@/utils/supabase/service";
 
 const AdminLayout = ({ children }: { children: ReactNode }) => {
   const [loggedInUser, setLoggedInUser] = useState<UserProfile | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -53,6 +55,11 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
     fetchUser();
   }, []);
 
+  const handleLogout = async () => {
+    await logout();
+    setLoggedInUser(null);
+    router.push("/login");
+  };
   return (
     <SidebarProvider>
       <AdminSidebar />
@@ -74,7 +81,10 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <UserSetting loggedInUser={loggedInUser} />
+          <UserSetting
+            loggedInUser={loggedInUser}
+            handleLogout={handleLogout}
+          />
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-6">{children}</div>
       </SidebarInset>

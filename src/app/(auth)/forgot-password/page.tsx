@@ -1,6 +1,5 @@
 "use client";
 
-import { forgotPassword } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,6 +18,7 @@ import {
   forgotPasswordFormSchema,
   ForgotPasswordFormSchema,
 } from "../forms/forgot-password";
+import { forgotPassword } from "@/utils/supabase/service";
 
 const ForgotPasswordPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

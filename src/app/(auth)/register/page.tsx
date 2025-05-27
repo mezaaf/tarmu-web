@@ -18,6 +18,7 @@ import { RegisterFormSchema, registerFormShema } from "../forms/register";
 import LoginGoogle from "../login-google";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { axiosInstance } from "@/lib/axios/instance";
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -33,26 +34,26 @@ const RegisterPage = () => {
 
   const handleRegisterSubmit = async (values: RegisterFormSchema) => {
     setIsLoading(true);
-    const result = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    setIsLoading(true);
+    await axiosInstance
+      .post("/auth/register", {
         full_name: values.full_name,
         email: values.email,
         password: values.password,
-      }),
-    });
-
-    const response = await result.json();
-
-    if (!result.ok) {
-      toast.error(response.message);
-    } else {
-      toast.success(response.message);
-      router.push("/login");
-    }
-
-    setIsLoading(false);
+      })
+      .then((response) => {
+        const message = response.data.message;
+        toast.success(message);
+        setIsLoading(false);
+        router.push("/login");
+      })
+      .catch((error) => {
+        if (error.response) {
+          const message = error.response.data.message;
+          toast.error(message);
+          setIsLoading(false);
+        }
+      });
   };
 
   return (

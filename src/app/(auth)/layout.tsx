@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -30,14 +31,16 @@ export default async function AuthLayout({
         <Card className="w-full">
           <CardHeader>
             <CardTitle className="flex flex-col items-center">
-              <Image
-                src={"/images/logos/logo.svg"}
-                alt="logo-pondok"
-                width={100}
-                height={100}
-                className="w-20"
-                priority
-              />
+              <Link href={"/"}>
+                <Image
+                  src={"/images/logos/logo.svg"}
+                  alt="logo-pondok"
+                  width={1000}
+                  height={1000}
+                  className="w-20"
+                  priority
+                />
+              </Link>
             </CardTitle>
             <CardDescription className="text-center">
               Selamat Datang

@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { LoginFormSchema, loginFormShema } from "../forms/login";
 import LoginGoogle from "../login-google";
 import { toast } from "sonner";
+import { axiosInstance } from "@/lib/axios/instance";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -33,31 +34,24 @@ const LoginPage = () => {
 
   const handleLoginSubmit = async (values: LoginFormSchema) => {
     setIsLoading(true);
-    const result = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    await axiosInstance
+      .post("/auth/login", {
         email: values.email,
         password: values.password,
-      }),
-    });
-
-    const response = await result.json();
-
-    if (!result.ok) {
-      if (response.message === "Email not confirmed") {
-        toast.error(
-          "Email belum dikonfirmasi, silahkan cek email anda untuk verifikasi."
-        );
-      } else {
-        toast.error(response.message);
-      }
-    } else {
-      toast.success(response.message);
-      router.push("/");
-    }
-
-    setIsLoading(false);
+      })
+      .then((response) => {
+        const message = response.data.message;
+        toast.success(message);
+        setIsLoading(false);
+        router.push("/");
+      })
+      .catch((error) => {
+        if (error.response) {
+          const message = error.response.data.message;
+          toast.error(message);
+          setIsLoading(false);
+        }
+      });
   };
 
   return (

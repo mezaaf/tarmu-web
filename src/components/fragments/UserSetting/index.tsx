@@ -15,7 +15,7 @@ import React from "react";
 
 type UserSettingProps = {
   loggedInUser: UserProfile | null;
-  handleLogout?: () => void;
+  handleLogout: () => void;
 };
 
 const UserSetting = (props: UserSettingProps) => {

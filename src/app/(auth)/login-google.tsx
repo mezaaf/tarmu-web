@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { loginWithGoogle } from "@/utils/supabase/service";
 import React, { useTransition } from "react";
-import { loginWithGoogle } from "../actions/auth";
 import { FcGoogle } from "react-icons/fc";
 
 const LoginGoogle = (props: { type: "login" | "register" }) => {
